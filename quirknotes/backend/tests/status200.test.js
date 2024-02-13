@@ -47,8 +47,6 @@ test("1+2=3, empty array is empty", () => {
     // Code here
     const title = "NoteTitleTest";
     const content = "NoteTitleContent";
-    const title2 = "NoteTitleTest";
-    const content2 = "NoteTitleContent";
   
     const postNoteRes1 = await fetch(`${SERVER_URL}/postNote`, {
       method: "POST",
@@ -60,6 +58,11 @@ test("1+2=3, empty array is empty", () => {
         content: content,
       }),
     });
+    const postNoteBody = await postNoteRes1.json();
+
+    const title2 = "NoteTitleTest2";
+    const content2 = "NoteTitleContent2";
+
     const postNoteRes2 = await fetch(`${SERVER_URL}/postNote`, {
       method: "POST",
       headers: {
@@ -70,6 +73,8 @@ test("1+2=3, empty array is empty", () => {
         content: content2,
       }),
     });
+    const postNoteBody2 = await postNoteRes2.json();
+
 
     const getAllNoteRes = await fetch(`${SERVER_URL}/getAllNotes`, {
       method: "GET",
@@ -85,10 +90,35 @@ test("1+2=3, empty array is empty", () => {
 
   });
   
-  // test("/deleteNote - Delete a note", async () => {
-  //   // Code here
-  //   expect(false).toBe(true);
-  // });
+  test("/deleteNote - Delete a note", async () => {
+    // Code here
+    const title = "NoteTitleTest";
+    const content = "NoteTitleContent";
+
+    const postNoteRes = await fetch(`${SERVER_URL}/postNote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        content: content,
+      }),
+    });
+
+    const postNoteBody = await postNoteRes.json();
+
+
+    const deleteNoteRes = await fetch(`${SERVER_URL}/postNote/${postNoteBody.insertedId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const deleteNoteBody = await deleteNoteRes.json();
+    
+    expect(deleteNoteRes.status).toBe(200);
+  });
   
   // test("/patchNote - Patch with content and title", async () => {
   //   // Code here
