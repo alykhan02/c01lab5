@@ -32,7 +32,9 @@ jobs:
         uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-uri: 'mongodb://localhost:27017'
 
       - run: npm ci
-      - run: npm run build --if-present
+      - run: npm run dev &
+      - run: sleep 5
       - run: npm test
