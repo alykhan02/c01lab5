@@ -43,10 +43,47 @@ test("1+2=3, empty array is empty", () => {
 
   
   
-  // test("/getAllNotes - Return list of two notes for getAllNotes", async () => {
-  //   // Code here
-  //   expect(false).toBe(true);
-  // });
+  test("/getAllNotes - Return list of two notes for getAllNotes", async () => {
+    // Code here
+    const title = "NoteTitleTest";
+    const content = "NoteTitleContent";
+    const title2 = "NoteTitleTest";
+    const content2 = "NoteTitleContent";
+  
+    const postNoteRes1 = await fetch(`${SERVER_URL}/postNote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        content: content,
+      }),
+    });
+    const postNoteRes2 = await fetch(`${SERVER_URL}/postNote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title2,
+        content: content2,
+      }),
+    });
+
+    const getAllNoteRes = await fetch(`${SERVER_URL}/getAllNotes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const getAllNotesBody = await getAllNoteRes.json();
+  
+    expect(getAllNoteRes.status).toBe(200);
+    expect(getAllNotesBody.response.length).toBe(2);
+
+  });
   
   // test("/deleteNote - Delete a note", async () => {
   //   // Code here
